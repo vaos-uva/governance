@@ -10,6 +10,7 @@ Public registry of the `vaos-uva` GitHub org's public repositories.
 |---|---|
 | `README.md` | This description |
 | `vaos-repos-registry.yaml` | Machine-readable registry of the **public** repos (GOV, VAOS, ARCHMODELS) |
+| `buildsystem.md` | Vaos-uva build system definition (build layers, validation gates, change flow) |
 | `LICENSE` | Apache License 2.0 |
 
 ## Registry
