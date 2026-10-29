@@ -1,0 +1,106 @@
+# VAOS-UVA public repo registry (GOV mirror)
+# Source of truth: vaos-uva/master-area vaos-repos-master-config/build-config.yaml
+# Scope: public repos only (@VAOS). Private /@UVA entries are excluded here.
+# Derived fields (id/domain/layer/version/owner/org/visibility/git_workflow) per master config.
+# Do not edit drift: change master-area build-config, regenerate, commit both repos.
+
+registry: repo-registry
+version: "1.0.0"
+repos:
+- id: repo.governance
+  domain: master-data
+  layer: MASTER
+  version: 1.0.0
+  owner: UVA
+  key: GOV
+  org: vaos-uva
+  visibility: public
+  git_workflow: &id001
+  - find
+  - fetch
+  - analyze
+  remote: https://github.com/vaos-uva/governance.git
+  local_dir: governance
+  role: OZCO UVA governance — OZCO master-registry
+  spec:
+  - '@VAOS'
+  - public
+  - deterministic
+  - master-data
+  languages:
+  - markdown
+  entrypoints:
+  - README.md
+  validation:
+  - git diff --check
+  notes:
+  - 'Docs-only today: README.md + LICENSE; no tooling, no tests.'
+- id: repo.vaos
+  domain: master-data
+  layer: MASTER
+  version: 1.0.0
+  owner: UVA
+  key: VAOS
+  org: vaos-uva
+  visibility: public
+  git_workflow: *id001
+  remote: https://github.com/vaos-uva/vaos.git
+  local_dir: vaos
+  role: VAOS base library — portable bash/YAML tooling (installers, skills, rules, runtimes)
+  spec:
+  - '@VAOS'
+  - public
+  - base
+  - lib
+  languages:
+  - bash
+  - yaml
+  entrypoints:
+  - vaos-portable/vaos-portable-install.sh
+  - vaos-portable/vaos-portable-cli.sh
+  - playwright-cli.sh
+  validation:
+  - sh vaos-portable/vaos-portable-install.sh validate
+  - sh vaos-portable/vaos-common-tools/tools/glagol.sh selftest
+  - sh vaos-portable/vaos-common-tools/tools/kstar-tests.sh
+  notes:
+  - Not a Node project — bash + YAML only; bun/pnpm/uv are declared runtimes, not vendored here.
+  - Scripts derive VAOS_ROOT two levels up from their path; the clone directory must stay named vaos.
+  - 'vaos-portable-cli.sh check exits 1 today: 13 of 17 .yaml files lack $schema (only 4 declare it).'
+- id: repo.architecture-models-atlas
+  domain: master-data
+  layer: MASTER
+  version: 1.0.0
+  owner: UVA
+  key: ARCHMODELS
+  org: vaos-uva
+  visibility: public
+  git_workflow: *id001
+  remote: https://github.com/vaos-uva/architecture-models-atlas.git
+  local_dir: architecture-models-atlas
+  role: KNIGA in OZCO — source-grounded interactive architecture knowledge atlas; only full codebase in
+    the workspace
+  spec:
+  - '@VAOS'
+  - public
+  - knowledge
+  - kniga
+  - library
+  languages:
+  - typescript
+  - sql
+  - css
+  package_manager: pnpm@10.4.1
+  entrypoints:
+  - AGENTS.md
+  - client/src/pages/Home.tsx
+  - server/index.ts
+  validation:
+  - pnpm test
+  - pnpm run check
+  - pnpm run build
+  - git diff --check
+  notes:
+  - All work follows the repo's own AGENTS.md and docs/INDEX.md; gates run in the listed order from repo
+    root.
+  - 'pnpm only: package.json pins pnpm@10.4.1 and patches wouter@3.7.1 — npm/yarn will break.'
