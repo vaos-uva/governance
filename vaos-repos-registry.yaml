@@ -1,7 +1,7 @@
 # VAOS-UVA public repo registry (GOV mirror)
 # Source of truth: vaos-uva/master-area vaos-repos-master-config/build-config.yaml
 # Scope: public repos only (@VAOS). Private /@UVA entries are excluded here.
-# Derived fields (id/domain/layer/version/owner/org/visibility/git_workflow) per master config.
+# Aliases: repo keys may carry an -> alias address (defined in the master registry).
 # Do not edit drift: change master-area build-config, regenerate, commit both repos.
 
 registry: repo-registry
@@ -31,10 +31,12 @@ repos:
   - markdown
   entrypoints:
   - README.md
+  - vaos-repos-registry.yaml
+  - buildsystem.md
   validation:
   - git diff --check
   notes:
-  - 'Docs-only today: README.md + LICENSE; no tooling, no tests.'
+  - 'Docs + registry only: README.md, vaos-repos-registry.yaml (public mirror), buildsystem.md, LICENSE.'
 - id: repo.vaos
   domain: master-data
   layer: MASTER
@@ -55,6 +57,7 @@ repos:
   languages:
   - bash
   - yaml
+  alias: ARCSCHEMAS
   entrypoints:
   - vaos-portable/vaos-portable-install.sh
   - vaos-portable/vaos-portable-cli.sh

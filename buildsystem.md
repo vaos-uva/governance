@@ -44,6 +44,12 @@ Registry/config change lives first in `master-area` (`build-config.yaml`), then
 derived outputs are regenerated (`masterbuild-cli.sh build` → commit; gov mirror
 regenerated → commit). Commits in every repo only after that repo's gates pass.
 
+## Aliases
+
+Registry keys may carry an alias address, defined in the master registry and carried
+by the repo files (`alias:` field): `master-area` = `MASTER` → addressable as `GOV`
+(through the public mirror), `vaos` = `VAOS` → addressable as `ARCSCHEMAS`.
+
 ## Source of truth
 
 - Repo registry: `master-area/vaos-repos-master-config/build-config.yaml`
